@@ -1,0 +1,32 @@
+
+plugins {
+    id 'java'
+    id 'idea'
+    id 'org.springframework.boot' version('1.5.8.RELEASE')
+}
+
+group 'com.provectus.vaa25'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    springBootVersion = '1.5.8.RELEASE'
+}
+
+dependencies {
+    compile "org.springframework.boot:spring-boot-starter:${springBootVersion}"
+    compile "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
+    compile "org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}"
+    compile "org.springframework.boot:spring-boot-starter-thymeleaf:${springBootVersion}"
+    compile 'org.liquibase:liquibase-core'
+    compile 'org.springframework:spring-jdbc'
+    compile 'mysql:mysql-connector-java:5.1.38'
+
+    testCompile "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}

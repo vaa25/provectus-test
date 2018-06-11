@@ -1,0 +1,181 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <style>
+        .filter {
+            overflow: hidden;
+            width: 100%
+        }
+        .filter-element {
+            float: left;
+            width: 25%;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="filter">
+        <div class="filter-element">
+            <h4>Author</h4>
+            <select id="author" onchange="updateBooks()">
+                <option value="" selected="selected">All</option>
+                <th:block th:each="author : ${authors}">
+                    <option th:value="${author.id()}" th:text="${author.name()}"></option>
+                </th:block>
+            </select>
+        </div>
+        <div class="filter-element">
+            <h4>Genre</h4>
+            <select id="genre" onchange="updateBooks()">
+                <option value="" selected="selected">All</option>
+                <th:block th:each="genre : ${genres}">
+                    <option th:value="${genre.id()}" th:text="${genre.name()}"></option>
+                </th:block>
+            </select>
+
+        </div>
+
+    </div>
+
+    <div class="container">
+        <h1>Books</h1>
+        <table id="books" class="table table-striped table-bordered" cellspacing="0" width="100%">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Authors</th>
+                <th>Genres</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Control</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+
+    <dialog id="edit-profit" class="site-dialog">
+        <header class="dialog-header">
+            <h3>Submit book order</h3>
+        </header>
+
+        <div class="dialog-content">
+            <label for="first-name">First name</label>
+            <input id="first-name" type="text"/>
+        </div>
+        <div class="dialog-content">
+            <label for="last-name">Last name</label>
+            <input id="last-name" type="text"/>
+        </div>
+        <div class="dialog-content">
+            <label for="address">Address</label>
+            <input id="address" type="text"/>
+        </div>
+        <div class="dialog-content">
+            <label for="quantity">Quantity</label>
+            <input id="quantity" type="number" min="1"/>
+        </div>
+        <div class="btn-group cf">
+            <button id="submit">Submit</button>
+            <button id="cancel">Cancel</button>
+        </div>
+    </dialog>
+
+</div>
+<script>
+    //<![CDATA[
+
+    $(document).ready(function() {
+        updateBooks();
+    });
+    var bookId;
+    const updateBooks = function() {
+        let data = {
+            author: $('#author').val(),
+            genre: $('#genre').val()
+        };
+        $.ajax({
+            url: '/books/filtered',
+            method: "POST",
+            contentType: "application/json",
+            dataSrc: 'items',
+            data: JSON.stringify(data),
+            success: function (data) {
+                $('#books').DataTable({
+                    searching: false,
+                    data: data,
+                    destroy: true,
+                    columns: [
+                        { data: 'id' },
+                        { data: 'title' },
+                        {
+                            data: 'authors',
+                            render: function (authors, type, full) {
+                                return authors.map(author => author.name);
+                            }
+                        },
+                        {
+                            data: 'genres',
+                            render: function (genres, type, full) {
+                                return genres.map(genre => genre.name);
+                            }
+                        },
+                        { data: 'description' },
+                        { data: 'price' },
+                        {
+                            data: 'id',
+                            render: function (id, type, full) {
+                                return '<button class="order" value="'+id+'">Order</button>';
+                            }
+                        }
+                    ]
+                });
+                $('.order').on('click', function () {
+                    bookId =this.value;
+                    $('#edit-profit')[0].showModal();
+                } );
+            },
+            error: function (response) {
+                alert(response.responseJSON.message);
+            }
+        });
+        $('#cancel').on('click', function () {
+            $('#edit-profit')[0].close();
+        });
+        $('#submit').on('click', function () {
+            const data = {
+                firstName: $('#first-name').val(),
+                lastName: $('#last-name').val(),
+                address: $('#address').val(),
+                quantity: $('#quantity').val(),
+            };
+            $.ajax({
+                url: '/books/' + bookId + '/order',
+                method: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                success: function (response) {
+                    alert('Book order submitted successfully!');
+                },
+                error: function (response) {
+                    alert(response.responseJSON.message);
+                }
+            });
+
+            $('#edit-profit')[0].close();
+
+        });
+    };
+
+    // ]]>
+</script>
+</body>
+</html>
