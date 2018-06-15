@@ -14,9 +14,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public final class BooksServiceImpl implements BooksService {
+public class BooksServiceImpl implements BooksService {
 
     private final AuthorRepository authorRepository;
     private final GenreRepository genreRepository;
@@ -35,16 +36,19 @@ public final class BooksServiceImpl implements BooksService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Author> fetchAllAuthors() {
         return authorRepository.findAll();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Genre> fetchAllGenres() {
         return genreRepository.findAll();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Book> fetchBooks(final BooksFilter booksFilter) {
         final List<Book> result;
         if (booksFilter.getAuthor() != null && booksFilter.getGenre() == null){
@@ -62,11 +66,13 @@ public final class BooksServiceImpl implements BooksService {
     }
 
     @Override
+    @Transactional
     public void purchaseBook(final PurchaseDetails purchaseDetails) {
         purchaseRepository.saveAndFlush(new Purchase(purchaseDetails));
     }
 
     @Override
+    @Transactional
     public void createGenre(final Genre genre) {
         if (!genreRepository.exists(Example.of(genre))){
             genreRepository.saveAndFlush(genre);
@@ -74,6 +80,7 @@ public final class BooksServiceImpl implements BooksService {
     }
 
     @Override
+    @Transactional
     public void createAuthor(final Author author) {
         if (!authorRepository.exists(Example.of(author))){
             authorRepository.saveAndFlush(author);
@@ -81,6 +88,7 @@ public final class BooksServiceImpl implements BooksService {
     }
 
     @Override
+    @Transactional
     public void saveBook(final Book book) {
         if (!bookRepository.exists(Example.of(book))){
             bookRepository.saveAndFlush(book);
