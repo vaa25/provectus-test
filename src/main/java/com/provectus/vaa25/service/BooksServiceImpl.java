@@ -3,15 +3,16 @@ package com.provectus.vaa25.service;
 import com.provectus.vaa25.dao.AuthorRepository;
 import com.provectus.vaa25.dao.BookRepository;
 import com.provectus.vaa25.dao.GenreRepository;
-import com.provectus.vaa25.dao.OrderRepository;
+import com.provectus.vaa25.dao.PurchaseRepository;
 import com.provectus.vaa25.entity.Author;
 import com.provectus.vaa25.entity.Book;
 import com.provectus.vaa25.entity.Genre;
 import com.provectus.vaa25.entity.Purchase;
 import com.provectus.vaa25.model.BooksFilter;
-import com.provectus.vaa25.model.OrderDetails;
+import com.provectus.vaa25.model.PurchaseDetails;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,17 +21,17 @@ public final class BooksServiceImpl implements BooksService {
     private final AuthorRepository authorRepository;
     private final GenreRepository genreRepository;
     private final BookRepository bookRepository;
-    private final OrderRepository orderRepository;
+    private final PurchaseRepository purchaseRepository;
 
     @Autowired
     public BooksServiceImpl(
         final AuthorRepository authorRepository, final GenreRepository genreRepository,
-        final BookRepository bookRepository, final OrderRepository orderRepository
+        final BookRepository bookRepository, final PurchaseRepository purchaseRepository
     ) {
         this.authorRepository = authorRepository;
         this.genreRepository = genreRepository;
         this.bookRepository = bookRepository;
-        this.orderRepository = orderRepository;
+        this.purchaseRepository = purchaseRepository;
     }
 
     @Override
@@ -61,7 +62,21 @@ public final class BooksServiceImpl implements BooksService {
     }
 
     @Override
-    public void orderBook(final Long bookId, final OrderDetails orderDetails) {
-        orderRepository.saveAndFlush(new Purchase(new Book(bookId), orderDetails));
+    public void purchaseBook(final PurchaseDetails purchaseDetails) {
+        purchaseRepository.saveAndFlush(new Purchase(purchaseDetails));
+    }
+
+    @Override
+    public void createGenre(final Genre genre) {
+        if (!genreRepository.exists(Example.of(genre))){
+            genreRepository.saveAndFlush(genre);
+        }
+    }
+
+    @Override
+    public void createAuthor(final Author author) {
+        if (!authorRepository.exists(Example.of(author))){
+            authorRepository.saveAndFlush(author);
+        }
     }
 }

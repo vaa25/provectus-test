@@ -1,6 +1,6 @@
 package com.provectus.vaa25.entity;
 
-import com.provectus.vaa25.model.OrderDetails;
+import com.provectus.vaa25.model.PurchaseDetails;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -23,11 +23,11 @@ public final class Purchase {
     private String address;
     private Integer quantity;
 
-    public Purchase(final Book book, final OrderDetails orderDetails){
-        this.book = book;
-        firstName = orderDetails.getFirstName();
-        lastName = orderDetails.getLastName();
-        address = orderDetails.getAddress();
-        quantity = orderDetails.getQuantity();
+    public Purchase(final PurchaseDetails purchaseDetails){
+        this.book = new Book(purchaseDetails.getBookId());
+        firstName = purchaseDetails.getFirstName();
+        lastName = purchaseDetails.getLastName();
+        address = purchaseDetails.getAddress();
+        quantity = purchaseDetails.getQuantity();
     }
 }

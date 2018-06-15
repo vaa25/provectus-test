@@ -62,31 +62,33 @@
         </table>
     </div>
 
-    <dialog id="edit-profit" class="site-dialog">
-        <header class="dialog-header">
-            <h3>Submit book order</h3>
-        </header>
-
-        <div class="dialog-content">
-            <label for="first-name">First name</label>
-            <input id="first-name" type="text"/>
-        </div>
-        <div class="dialog-content">
-            <label for="last-name">Last name</label>
-            <input id="last-name" type="text"/>
-        </div>
-        <div class="dialog-content">
-            <label for="address">Address</label>
-            <input id="address" type="text"/>
-        </div>
-        <div class="dialog-content">
-            <label for="quantity">Quantity</label>
-            <input id="quantity" type="number" min="1" value="1"/>
-        </div>
-        <div class="btn-group cf">
-            <button id="submit">Submit</button>
-            <button id="cancel">Cancel</button>
-        </div>
+    <dialog id="edit_order" class="site-dialog">
+        <form method="post" action="#" th:action="@{/books/purchase}" th:object="${purchaseDetails}">
+            <header class="dialog-header">
+                <h3>Submit book order</h3>
+            </header>
+            <input id="book-id" name="bookId" type="hidden"/>
+            <div class="dialog-content">
+                <label for="first-name">First name</label>
+                <input id="first-name" name="firstName" type="text"/>
+            </div>
+            <div class="dialog-content">
+                <label for="last-name">Last name</label>
+                <input id="last-name" name="lastName" type="text"/>
+            </div>
+            <div class="dialog-content">
+                <label for="address">Address</label>
+                <input id="address" name="address" type="text"/>
+            </div>
+            <div class="dialog-content">
+                <label for="quantity">Quantity</label>
+                <input id="quantity" name="quantity" type="number" min="1" value="1"/>
+            </div>
+            <div class="btn-group cf">
+                <button id="submit" type="submit">Submit</button>
+                <button id="cancel" type="reset" onclick="edit_order.close()">Cancel</button>
+            </div>
+        </form>
     </dialog>
 
 </div>
@@ -96,7 +98,6 @@
     $(document).ready(function() {
         updateBooks();
     });
-    var bookId;
     const updateBooks = function() {
         let data = {
             author: $('#author').val(),
@@ -139,39 +140,13 @@
                     ]
                 });
                 $('.order').on('click', function () {
-                    bookId =this.value;
-                    $('#edit-profit')[0].showModal();
+                    $('#book-id').val(this.value);
+                    $('#edit_order')[0].showModal();
                 } );
             },
             error: function (response) {
                 alert(response.responseJSON.message);
             }
-        });
-        $('#cancel').on('click', function () {
-            $('#edit-profit')[0].close();
-        });
-        $('#submit').on('click', function () {
-            const data = {
-                firstName: $('#first-name').val(),
-                lastName: $('#last-name').val(),
-                address: $('#address').val(),
-                quantity: $('#quantity').val(),
-            };
-            $.ajax({
-                url: '/books/' + bookId + '/order',
-                method: "POST",
-                contentType: "application/json",
-                data: JSON.stringify(data),
-                success: function (response) {
-                    alert('Book order submitted successfully!');
-                },
-                error: function (response) {
-                    alert(response.responseJSON.message);
-                }
-            });
-
-            $('#edit-profit')[0].close();
-
         });
     };
 
