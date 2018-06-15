@@ -90,8 +90,6 @@ public class BooksServiceImpl implements BooksService {
     @Override
     @Transactional
     public void saveBook(final Book book) {
-        if (!bookRepository.exists(Example.of(book))){
-            bookRepository.saveAndFlush(book);
-        }
+        bookRepository.saveAndFlush(book);
     }
 }
