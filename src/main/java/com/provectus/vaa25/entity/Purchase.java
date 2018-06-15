@@ -18,7 +18,7 @@ public final class Purchase {
     private Long id;
     private String firstName;
     private String lastName;
-    @OneToOne(targetEntity = Book.class)
+    @OneToOne
     private Book book;
     private String address;
     private Integer quantity;

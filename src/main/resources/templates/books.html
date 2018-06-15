@@ -28,7 +28,7 @@
             <select id="author" onchange="updateBooks()">
                 <option value="" selected="selected">All</option>
                 <th:block th:each="author : ${authors}">
-                    <option th:value="${author.id()}" th:text="${author.name()}"></option>
+                    <option th:value="${author.getId()}" th:text="${author.getName()}"></option>
                 </th:block>
             </select>
         </div>
@@ -37,7 +37,7 @@
             <select id="genre" onchange="updateBooks()">
                 <option value="" selected="selected">All</option>
                 <th:block th:each="genre : ${genres}">
-                    <option th:value="${genre.id()}" th:text="${genre.name()}"></option>
+                    <option th:value="${genre.getId()}" th:text="${genre.getName()}"></option>
                 </th:block>
             </select>
 
@@ -81,7 +81,7 @@
         </div>
         <div class="dialog-content">
             <label for="quantity">Quantity</label>
-            <input id="quantity" type="number" min="1"/>
+            <input id="quantity" type="number" min="1" value="1"/>
         </div>
         <div class="btn-group cf">
             <button id="submit">Submit</button>

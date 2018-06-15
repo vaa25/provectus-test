@@ -26,6 +26,7 @@ dependencies {
     compile 'org.liquibase:liquibase-core'
     compile 'org.springframework:spring-jdbc'
     compile 'mysql:mysql-connector-java:5.1.38'
+    compile 'org.projectlombok:lombok:1.16.18'
 
     testCompile "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
     testCompile group: 'junit', name: 'junit', version: '4.12'

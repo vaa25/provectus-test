@@ -1,19 +1,19 @@
 package com.provectus.vaa25.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+@Data
 @Entity
 @Table(name = "author")
+@NoArgsConstructor
 public final class Author {
-
-    public Author() {
-    }
 
     public Author(final Long id) {
         this.id = id;
@@ -24,13 +24,4 @@ public final class Author {
     private Long id;
     private String name;
 
-    @JsonProperty
-    public Long id(){
-        return id;
-    }
-
-    @JsonProperty
-    public String name(){
-        return name;
-    }
 }

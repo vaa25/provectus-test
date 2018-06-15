@@ -10,11 +10,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import lombok.NoArgsConstructor;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name = "book")
+@NoArgsConstructor
 public final class Book {
 
     @Id
@@ -39,9 +41,6 @@ public final class Book {
     private String description;
     @JsonProperty
     private Double price;
-
-    public Book() {
-    }
 
     public Book(final Long id) {
         this.id = id;
