@@ -5,3 +5,7 @@ New database credentials should be placed in application.properties.
 Liquibase creates some books, authors and genres automatically.
 
 Application runs at port 8080.
+
+User page at address /books
+
+Admin page at address /admin/books

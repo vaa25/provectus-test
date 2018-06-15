@@ -24,7 +24,6 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}"
     compile "org.springframework.boot:spring-boot-starter-thymeleaf:${springBootVersion}"
     compile 'org.liquibase:liquibase-core'
-    compile 'org.springframework:spring-jdbc'
     compile 'mysql:mysql-connector-java:5.1.38'
     compile 'org.projectlombok:lombok:1.16.18'
 
