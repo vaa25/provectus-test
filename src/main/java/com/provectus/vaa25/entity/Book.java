@@ -10,10 +10,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+@Data
 @Entity
 @Table(name = "book")
 @NoArgsConstructor

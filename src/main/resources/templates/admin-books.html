@@ -28,9 +28,7 @@
             <button id="create-author" onclick="create_author_dialog.showModal()">+</button>
             <select id="author" onchange="updateBooks()">
                 <option value="" selected="selected">All</option>
-                <th:block th:each="author : ${authors}">
-                    <option th:value="${author.getId()}" th:text="${author.getName()}"></option>
-                </th:block>
+                <option th:each="author : ${authors}" th:value="${author.getId()}" th:text="${author.getName()}"></option>
             </select>
         </div>
         <div class="filter-element">
@@ -38,9 +36,7 @@
             <button id="create-genre" onclick="create_genre_dialog.showModal()">+</button>
             <select id="genre" onchange="updateBooks()">
                 <option value="" selected="selected">All</option>
-                <th:block th:each="genre : ${genres}">
-                    <option th:value="${genre.getId()}" th:text="${genre.getName()}"></option>
-                </th:block>
+                <option th:each="genre : ${genres}" th:value="${genre.getId()}" th:text="${genre.getName()}"></option>
             </select>
 
         </div>
@@ -49,7 +45,7 @@
 
     <div class="container">
         <h1>Books</h1>
-        <button id="create-book" onclick="createBook()">+</button>
+        <button id="create-book" onclick="create_book_dialog.showModal()">+</button>
         <table id="books" class="table table-striped table-bordered" cellspacing="0" width="100%">
             <thead>
             <tr>
@@ -65,31 +61,60 @@
         </table>
     </div>
 
-    <dialog id="edit-order" class="site-dialog">
+    <dialog id="edit_book_dialog" class="site-dialog">
+        <form method="post" action="#" th:action="@{/admin/books/save}" th:object="${book}">
         <header class="dialog-header">
-            <h3>Submit book order</h3>
+            <h3>Edit book</h3>
         </header>
+            <table class="table table-striped table-bordered" cellspacing="0" width="100%">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Title</th>
+                    <th>Authors</th>
+                    <th>Genres</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th>
+                        <input id="edit-book-id" type="hidden" th:field="*{id}"/>
+                        <div id="edit-book-id-text">
+                        </div>
+                    </th>
+                    <th>
+                        <input id="edit-book-title" type="text" th:field="*{title}"/>
+                    </th>
+                    <th id="edit-book-authors">
+                        <th:block th:each="author : ${authors}" th:field="*{authors}">
+                            <input name="authors" type="checkbox" th:value="${author.id}" th:text="${author.name}"/>
+                            <br/>
+                        </th:block>
+                    </th>
+                    <th id="edit-book-genres">
+                        <th:block th:each="genre : ${genres}" th:field="*{genres}">
+                            <input name="genres" type="checkbox" th:value="${genre.id}" th:text="${genre.name}"/>
+                            <br/>
+                        </th:block>
+                    </th>
+                    <th>
+                        <input id="edit-book-description" type="text" th:field="*{description}"/>
+                    </th>
+                    <th>
+                        <input id="edit-book-price" type="number" min="0" value="0" step=".01" th:field="*{price}"/>
+                    </th>
+                </tr>
+    
+                </tbody>
+            </table>
 
-        <div class="dialog-content">
-            <label for="first-name">First name</label>
-            <input id="first-name" type="text"/>
-        </div>
-        <div class="dialog-content">
-            <label for="last-name">Last name</label>
-            <input id="last-name" type="text"/>
-        </div>
-        <div class="dialog-content">
-            <label for="address">Address</label>
-            <input id="address" type="text"/>
-        </div>
-        <div class="dialog-content">
-            <label for="quantity">Quantity</label>
-            <input id="quantity" type="number" min="1"/>
-        </div>
-        <div class="btn-group cf">
-            <button id="submit">Submit</button>
-            <button id="cancel">Cancel</button>
-        </div>
+            <div class="btn-group cf">
+                <button type="submit">Submit</button>
+                <button type="reset" onclick="edit_book_dialog.close()">Cancel</button>
+            </div>
+        </form>
     </dialog>
 
     <dialog id="create_author_dialog" class="site-dialog">
@@ -99,16 +124,15 @@
             </header>
 
             <div class="dialog-content">
-                <label for="author-name">Author's name</label>
-                <input id="author-name" type="text"/>
+                <label for="create-author-name">Author's name</label>
+                <input id="create-author-name" type="text" th:field="*{name}"/>
             </div>
             <div class="btn-group cf">
                 <button id="create-author-submit" type="submit">Create</button>
-                <button id="create-author-cancel"  type="reset" onclick="create_author_dialog.close()">Cancel</button>
+                <button id="create-author-cancel" type="reset" onclick="create_author_dialog.close()">Cancel</button>
             </div>
         </form>
     </dialog>
-
 
     <dialog id="create_genre_dialog" title="Create new genre" class="site-dialog" >
         <form method="post" action="#" th:action="@{/admin/genres/create}" th:object="${genre}">
@@ -117,8 +141,8 @@
             </header>
 
             <div class="dialog-content">
-                <label for="genre-name">Genre name</label>
-                <input id="genre-name" type="text" th:field="*{name}"/>
+                <label for="create-genre-name">Genre name</label>
+                <input id="create-genre-name" type="text" th:field="*{name}"/>
             </div>
             <div class="btn-group cf">
                 <button id="create-genre-submit" type="submit">Create</button>
@@ -127,46 +151,65 @@
         </form>
     </dialog>
 
-    <form id="create-book-dialog" class="site-dialog" action="/admin/books/create" method="post">
-        <header class="dialog-header">
-            <h3>Create new book</h3>
-        </header>
+    <dialog id="create_book_dialog" class="site-dialog">
 
-        <div class="dialog-content">
-            <label for="book-name">Book title</label>
-            <input id="book-name" type="text"/>
-        </div>
+        <form method="post" action="#" th:action="@{/admin/books/save}" th:object="${book}">
+            <header class="dialog-header">
+                <h3>Create new book</h3>
+            </header>
 
-        <div class="dialog-content">
-            <input type="checkbox" id="create-book-author">
-                <th:block th:each="author : ${authors}">
-                    <option th:value="${author.getId()}" th:text="${author.getName()}"></option>
-                </th:block>
-            </input>
-        </div>
-        <div class="btn-group cf">
-            <button id="create-book-submit" onclick="createBookSubmit()">Create</button>
-            <button id="create-book-cancel" onclick="createBookCancel()">Cancel</button>
-        </div>
-    </form>
+            <table class="table table-striped table-bordered" cellspacing="0" width="100%">
+                <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Authors</th>
+                    <th>Genres</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th>
+                        <input type="text" th:field="*{title}"/>
+                    </th>
+                    <th>
+                        <th:block th:each="author : ${authors}" th:field="*{authors}">
+                            <input name="authors" type="checkbox" th:value="${author.id}" th:text="${author.name}"/>
+                            <br/>
+                        </th:block>
+                    </th>
+                    <th>
+                        <th:block th:each="genre : ${genres}" th:field="*{genres}">
+                            <input name="genres" type="checkbox" th:value="${genre.id}" th:text="${genre.name}"/>
+                            <br/>
+                        </th:block>
+                    </th>
+                    <th>
+                        <input type="text" th:field="*{description}"/>
+                    </th>
+                    <th>
+                        <input type="number" min="0" value="0" step=".01" th:field="*{price}"/>
+                    </th>
+                </tr>
+
+                </tbody>
+            </table>
+
+            <div class="btn-group cf">
+                <button type="submit">Create</button>
+                <button type="reset" onclick="create_book_dialog.close()">Cancel</button>
+            </div>
+        </form>
+    </dialog>
 
 </div>
 <script>
     //<![CDATA[
 
-    function createBookCancel() {
-        $('#book-name').val('');
-        $('#create-book-dialog')[0].close();
-    }
-
-    function createBook(){
-        $('#create-book-dialog')[0].showModal();
-    }
-
     $(document).ready(function() {
         updateBooks();
     });
-    var bookId;
     const updateBooks = function() {
         let data = {
             author: $('#author').val(),
@@ -180,7 +223,6 @@
             data: JSON.stringify(data),
             success: function (data) {
                 $('#books').DataTable({
-                    searching: false,
                     data: data,
                     destroy: true,
                     columns: [
@@ -203,49 +245,34 @@
                         {
                             data: 'id',
                             render: function (id, type, full) {
-                                return '<button class="order" value="'+id+'">Order</button>';
+                                return '<button class="edit" value='+"'" + JSON.stringify(full)+"'"+'>Edit</button>';
                             }
                         }
                     ]
                 });
-                $('.order').on('click', function () {
-                    bookId =this.value;
-                    $('#edit-order')[0].showModal();
+                $('.edit').on('click', function () {
+                    let book = JSON.parse(this.value);
+                    $('#edit-book-id-text').text(book.id);
+                    $('#edit-book-id').val(book.id);
+                    $('#edit-book-title').val(book.title);
+                    $('#edit-book-description').val(book.description);
+                    $('#edit-book-price').val(book.price);
+                    $('#edit-book-authors').find('input').each(function (index, element) {
+                        element.checked = book.authors.some(function (author) {
+                            return element.value == author.id;
+                        })
+                    });
+                    $('#edit-book-genres').find('input').each(function (index, element) {
+                        element.checked = book.genres.some(function (genre) {
+                            return element.value == genre.id;
+                        })
+                    });
+                    $('#edit_book_dialog')[0].showModal();
                 } );
             },
             error: function (response) {
                 alert(response.responseJSON.message);
             }
-        });
-        $('#cancel').on('click', function () {
-            $('#edit-order')[0].close();
-        });
-        $('#submit').on('click', function () {
-            const data = {
-                firstName: $('#first-name').val(),
-                lastName: $('#last-name').val(),
-                address: $('#address').val(),
-                quantity: $('#quantity').val(),
-            };
-            $.ajax({
-                url: '/books/' + bookId + '/order',
-                method: "POST",
-                contentType: "application/json",
-                data: JSON.stringify(data),
-                success: function (response) {
-                    alert('Book order submitted successfully!');
-                },
-                error: function (response) {
-                    alert(response.responseJSON.message);
-                }
-            });
-
-            $('#first-name').val('');
-            $('#last-name').val('');
-            $('#address').val('');
-            $('#quantity').val('');
-            $('#edit-order')[0].close();
-
         });
     };
 

@@ -1,6 +1,7 @@
 package com.provectus.vaa25.api;
 
 import com.provectus.vaa25.entity.Author;
+import com.provectus.vaa25.entity.Book;
 import com.provectus.vaa25.entity.Genre;
 import com.provectus.vaa25.service.BooksService;
 import java.util.List;
@@ -31,11 +32,12 @@ public final class AdminController {
         model.addAttribute("genres", genres);
         model.addAttribute("genre", new Genre());
         model.addAttribute("author", new Author());
+        model.addAttribute("book", new Book());
         return "admin-books";
     }
 
-    @PostMapping(path = "/admin/books/create", consumes = APPLICATION_FORM_URLENCODED_VALUE)
-    public String createBook(@ModelAttribute final Author author) {
+    @PostMapping(path = "/admin/authors/create", consumes = APPLICATION_FORM_URLENCODED_VALUE)
+    public String createAuthor(@ModelAttribute final Author author) {
         booksService.createAuthor(author);
         return "redirect:/admin/books";
     }
@@ -46,5 +48,9 @@ public final class AdminController {
         return "redirect:/admin/books";
     }
 
-
+    @PostMapping(path = "/admin/books/save", consumes = APPLICATION_FORM_URLENCODED_VALUE)
+    public String saveBook(@ModelAttribute final Book book) {
+        booksService.saveBook(book);
+        return "redirect:/admin/books";
+    }
 }

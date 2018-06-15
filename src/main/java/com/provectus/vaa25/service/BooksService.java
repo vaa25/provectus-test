@@ -12,11 +12,13 @@ public interface BooksService {
 
     List<Genre> fetchAllGenres();
 
-    List<Book> fetchBooks(final BooksFilter booksFilter);
+    List<Book> fetchBooks(BooksFilter booksFilter);
 
     void createGenre(Genre genre);
 
     void createAuthor(Author author);
 
     void purchaseBook(PurchaseDetails purchase);
+
+    void saveBook(Book book);
 }

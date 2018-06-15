@@ -111,7 +111,6 @@
             data: JSON.stringify(data),
             success: function (data) {
                 $('#books').DataTable({
-                    searching: false,
                     data: data,
                     destroy: true,
                     columns: [

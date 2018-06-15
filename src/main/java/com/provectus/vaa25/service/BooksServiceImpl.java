@@ -79,4 +79,11 @@ public final class BooksServiceImpl implements BooksService {
             authorRepository.saveAndFlush(author);
         }
     }
+
+    @Override
+    public void saveBook(final Book book) {
+        if (!bookRepository.exists(Example.of(book))){
+            bookRepository.saveAndFlush(book);
+        }
+    }
 }
