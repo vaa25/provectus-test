@@ -1,11 +1,8 @@
 package com.provectus.vaa25.entity;
 
 import com.provectus.vaa25.model.PurchaseDetails;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+
+import javax.persistence.*;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -18,7 +15,7 @@ public final class Purchase {
     private Long id;
     private String firstName;
     private String lastName;
-    @OneToOne
+    @ManyToOne
     private Book book;
     private String address;
     private Integer quantity;

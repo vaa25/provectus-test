@@ -1,11 +1,13 @@
 package com.provectus.vaa25.entity;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -13,6 +15,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Entity
 @Table(name = "author")
 @NoArgsConstructor
+@Accessors(chain = true)
 public final class Author {
 
     public Author(final Long id) {

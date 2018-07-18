@@ -1,16 +1,11 @@
 package com.provectus.vaa25.entity;
 
-import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+
+import javax.persistence.*;
+import java.util.List;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -18,18 +13,19 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Entity
 @Table(name = "book")
 @NoArgsConstructor
+@Accessors(chain = true)
 public final class Book {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
     private String title;
-    @OneToMany(targetEntity = Author.class, cascade = CascadeType.ALL)
+    @ManyToMany(targetEntity = Author.class)
     @JoinTable(name = "book_authors",
         joinColumns = @JoinColumn(name = "book_id"),
         inverseJoinColumns = @JoinColumn(name = "author_id"))
     private List<Author> authors;
-    @OneToMany(targetEntity = Genre.class, cascade = CascadeType.ALL)
+    @ManyToMany(targetEntity = Genre.class)
     @JoinTable(name = "book_genres",
         joinColumns = @JoinColumn(name = "book_id"),
         inverseJoinColumns = @JoinColumn(name = "genre_id"))
