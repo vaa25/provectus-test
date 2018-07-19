@@ -10,11 +10,12 @@ import com.provectus.vaa25.entity.Genre;
 import com.provectus.vaa25.entity.Purchase;
 import com.provectus.vaa25.model.BooksFilter;
 import com.provectus.vaa25.model.PurchaseDetails;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class BooksServiceImpl implements BooksService {
@@ -50,19 +51,7 @@ public class BooksServiceImpl implements BooksService {
     @Override
     @Transactional(readOnly = true)
     public List<Book> fetchBooks(final BooksFilter booksFilter) {
-        final List<Book> result;
-        if (booksFilter.getAuthor() != null && booksFilter.getGenre() == null){
-            result = bookRepository.findBooksByAuthors(new Author(booksFilter.getAuthor()));
-        } else if (booksFilter.getAuthor() == null && booksFilter.getGenre() != null){
-            result = bookRepository.findBooksByGenres(new Genre(booksFilter.getGenre()));
-        } else if (booksFilter.getAuthor() != null && booksFilter.getGenre() != null){
-            result = bookRepository.findBooksByAuthorsAndGenres(
-                new Author(booksFilter.getAuthor()), new Genre(booksFilter.getGenre())
-            );
-        } else {
-            result = bookRepository.findAll();
-        }
-        return result;
+        return bookRepository.findBooksByFilter(booksFilter);
     }
 
     @Override
