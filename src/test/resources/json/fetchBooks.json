@@ -1,0 +1,28 @@
+[
+  {
+    "id": 33,
+    "title": "title3",
+    "authors": [
+      {
+        "id": 1,
+        "name": "author1"
+      },
+      {
+        "id": 12,
+        "name": "author2"
+      }
+    ],
+    "genres": [
+      {
+        "id": 2,
+        "name": "genre1"
+      },
+      {
+        "id": 22,
+        "name": "genre2"
+      }
+    ],
+    "description": "description3",
+    "price": 3.0
+  }
+]
