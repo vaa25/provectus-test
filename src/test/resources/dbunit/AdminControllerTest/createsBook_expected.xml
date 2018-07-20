@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <author id="1" name="author1"/>
+    <author id="12" name="author2"/>
+    <genre id="2" name="genre1"/>
+    <genre id="22" name="genre2"/>
+    <book id="1" title="book" description="description" price="3.0"/>
+    <book_genres book_id="1" genre_id="2"/>
+    <book_genres book_id="1" genre_id="22"/>
+    <book_authors book_id="1" author_id="1"/>
+    <book_authors book_id="1" author_id="12"/>
+</dataset>

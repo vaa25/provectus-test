@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <author id="1" name="author1"/>
+    <author id="12" name="author2"/>
+    <genre id="2" name="genre1"/>
+    <genre id="22" name="genre2"/>
+    <book id="3" title="title1" description="description1" price="1.0"/>
+    <book id="32" title="title2" description="description2" price="2.0"/>
+    <book id="33" title="title3" description="description3" price="3.0"/>
+    <book_genres book_id="3" genre_id="2"/>
+    <book_genres book_id="32" genre_id="22"/>
+    <book_genres book_id="33" genre_id="2"/>
+    <book_genres book_id="33" genre_id="22"/>
+    <book_authors book_id="3" author_id="1"/>
+    <book_authors book_id="32" author_id="12"/>
+    <book_authors book_id="33" author_id="1"/>
+    <book_authors book_id="33" author_id="12"/>
+</dataset>
