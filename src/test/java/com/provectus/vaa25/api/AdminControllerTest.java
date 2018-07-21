@@ -65,6 +65,19 @@ public class AdminControllerTest extends AbstractDbunitTest {
     }
 
     @Test
+    @DatabaseSetup("/dbunit/AdminControllerTest/AdminControllerTest.xml")
+    @ExpectedDatabase(value = "/dbunit/AdminControllerTest/AdminControllerTest.xml", assertionMode = NON_STRICT)
+    public void dontCreatesAuthorDuplicate() throws Exception {
+        this.mockMvc
+                .perform(post("/admin/authors/create")
+                        .contentType(APPLICATION_FORM_URLENCODED)
+                        .flashAttr("author", new Author().setName("author1")))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/admin/books"))
+        ;
+    }
+
+    @Test
     @ExpectedDatabase(value = "/dbunit/AdminControllerTest/createGenre.xml", assertionMode = NON_STRICT)
     public void createGenre() throws Exception {
         this.mockMvc
@@ -77,7 +90,20 @@ public class AdminControllerTest extends AbstractDbunitTest {
     }
 
     @Test
-    @DatabaseSetup("/dbunit/AdminControllerTest/createsBook_initial.xml")
+    @DatabaseSetup("/dbunit/AdminControllerTest/AdminControllerTest.xml")
+    @ExpectedDatabase(value = "/dbunit/AdminControllerTest/AdminControllerTest.xml", assertionMode = NON_STRICT)
+    public void dontCreatesGenreDuplicate() throws Exception {
+        this.mockMvc
+                .perform(post("/admin/genres/create")
+                        .contentType(APPLICATION_FORM_URLENCODED)
+                        .flashAttr("author", new Genre().setName("genre1")))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/admin/books"))
+        ;
+    }
+
+    @Test
+    @DatabaseSetup("/dbunit/AdminControllerTest/AdminControllerTest.xml")
     @ExpectedDatabase(value = "/dbunit/AdminControllerTest/createsBook_expected.xml", assertionMode = NON_STRICT)
     public void createsBook() throws Exception {
         final List<Author> authors = asList(
