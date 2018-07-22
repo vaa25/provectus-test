@@ -21,7 +21,7 @@ public final class Purchase {
     private Integer quantity;
 
     public Purchase(final PurchaseDetails purchaseDetails){
-        this.book = new Book(purchaseDetails.getBookId());
+        this.book = new Book().setId(purchaseDetails.getBookId());
         firstName = purchaseDetails.getFirstName();
         lastName = purchaseDetails.getLastName();
         address = purchaseDetails.getAddress();

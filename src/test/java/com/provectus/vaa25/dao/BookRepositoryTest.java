@@ -28,11 +28,12 @@ public class BookRepositoryTest extends AbstractDbunitTest {
     @Test
     @Transactional
     public void findBooksByAuthorAndGenre() {
-        val genre1 = new Genre(2L).setName("genre1");
-        val genre2 = new Genre(22L).setName("genre2");
-        val author1 = new Author(1L).setName("author1");
-        val author2 = new Author(12L).setName("author2");
-        val book3 = new Book(33L)
+        val genre1 = new Genre().setId(2L).setName("genre1");
+        val genre2 = new Genre().setId(22L).setName("genre2");
+        val author1 = new Author().setId(1L).setName("author1");
+        val author2 = new Author().setId(12L).setName("author2");
+        val book3 = new Book()
+                .setId(33L)
                 .setTitle("title3")
                 .setDescription("description3")
                 .setPrice(3.0)
@@ -49,17 +50,19 @@ public class BookRepositoryTest extends AbstractDbunitTest {
     @Test
     @Transactional
     public void findBooksByAuthor() {
-        val genre1 = new Genre(2L).setName("genre1");
-        val genre2 = new Genre(22L).setName("genre2");
-        val author1 = new Author(1L).setName("author1");
-        val author2 = new Author(12L).setName("author2");
-        val book2 = new Book(32L)
+        val genre1 = new Genre().setId(2L).setName("genre1");
+        val genre2 = new Genre().setId(22L).setName("genre2");
+        val author1 = new Author().setId(1L).setName("author1");
+        val author2 = new Author().setId(12L).setName("author2");
+        val book2 = new Book()
+                .setId(32L)
                 .setTitle("title2")
                 .setDescription("description2")
                 .setPrice(2.0)
                 .setAuthors(singletonList(author2))
                 .setGenres(singletonList(genre2));
-        val book3 = new Book(33L)
+        val book3 = new Book()
+                .setId(33L)
                 .setTitle("title3")
                 .setDescription("description3")
                 .setPrice(3.0)
@@ -75,17 +78,19 @@ public class BookRepositoryTest extends AbstractDbunitTest {
     @Test
     @Transactional
     public void findBooksByGenres() {
-        val genre1 = new Genre(2L).setName("genre1");
-        val genre2 = new Genre(22L).setName("genre2");
-        val author1 = new Author(1L).setName("author1");
-        val author2 = new Author(12L).setName("author2");
-        val book1 = new Book(3L)
+        val genre1 = new Genre().setId(2L).setName("genre1");
+        val genre2 = new Genre().setId(22L).setName("genre2");
+        val author1 = new Author().setId(1L).setName("author1");
+        val author2 = new Author().setId(12L).setName("author2");
+        val book1 = new Book()
+                .setId(3L)
                 .setTitle("title1")
                 .setDescription("description1")
                 .setPrice(1.0)
                 .setAuthors(singletonList(author1))
                 .setGenres(singletonList(genre1));
-        val book3 = new Book(33L)
+        val book3 = new Book()
+                .setId(33L)
                 .setTitle("title3")
                 .setDescription("description3")
                 .setPrice(3.0)
@@ -101,23 +106,26 @@ public class BookRepositoryTest extends AbstractDbunitTest {
     @Test
     @Transactional
     public void findAllBooks() {
-        val genre1 = new Genre(2L).setName("genre1");
-        val genre2 = new Genre(22L).setName("genre2");
-        val author1 = new Author(1L).setName("author1");
-        val author2 = new Author(12L).setName("author2");
-        val book1 = new Book(3L)
+        val genre1 = new Genre().setId(2L).setName("genre1");
+        val genre2 = new Genre().setId(22L).setName("genre2");
+        val author1 = new Author().setId(1L).setName("author1");
+        val author2 = new Author().setId(12L).setName("author2");
+        val book1 = new Book()
+                .setId(3L)
                 .setTitle("title1")
                 .setDescription("description1")
                 .setPrice(1.0)
                 .setAuthors(singletonList(author1))
                 .setGenres(singletonList(genre1));
-        val book2 = new Book(32L)
+        val book2 = new Book()
+                .setId(32L)
                 .setTitle("title2")
                 .setDescription("description2")
                 .setPrice(2.0)
                 .setAuthors(singletonList(author2))
                 .setGenres(singletonList(genre2));
-        val book3 = new Book(33L)
+        val book3 = new Book()
+                .setId(33L)
                 .setTitle("title3")
                 .setDescription("description3")
                 .setPrice(3.0)

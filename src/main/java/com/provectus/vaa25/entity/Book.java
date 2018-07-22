@@ -1,7 +1,6 @@
 package com.provectus.vaa25.entity;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
@@ -12,7 +11,6 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Data
 @Entity
 @Table(name = "book")
-@NoArgsConstructor
 @Accessors(chain = true)
 public final class Book {
 
@@ -33,7 +31,4 @@ public final class Book {
     private String description;
     private Double price;
 
-    public Book(final Long id) {
-        this.id = id;
-    }
 }
